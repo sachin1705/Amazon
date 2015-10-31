@@ -1,0 +1,190 @@
+//============================================================================
+// Name        : Amazon21.cpp
+// Author      : Sachin
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <bits/stdc++.h>
+#define R 3
+#define C 3
+using namespace std;
+void printMaximumFrequencyValue(int arr[],int n);
+void RemoveDuplicatePrimes(int* arr, int& len);
+void printDigit(int arr[],int n,int index,string);
+void rotateBy90Degree(int arr[][C]);
+void printParanthesis(int pos,int n,int n1,int n2,int open,int close,int open1,int close1,int open2,int close2);
+void show_mem_rep(char *start, int n);
+
+int main() {
+	int arr[]={2,3,5,6,8,9,5,3,1,2,3,5,8};
+	int n=sizeof(arr)/sizeof(arr[0]);
+	printMaximumFrequencyValue(arr,n);
+
+	int testCases[] = {13, 59, 23, 47, 3, 59, 53, 13, 19, 23, 3, 7 };
+	cout << "The prime number array is" << endl;
+	int len = sizeof(testCases) / sizeof(testCases[0]);
+	copy(testCases, testCases + len, ostream_iterator<int>(cout, " "));
+	cout << endl;
+	map<int,int> m;
+
+	RemoveDuplicatePrimes(testCases, len);
+
+	cout << "After remove duplicates" << endl;
+	copy(testCases, testCases + len, ostream_iterator<int>(cout, " "));
+
+	int arr1[]={2,3,4};
+	cout<<"\nDigits Q\n";
+	string s="";
+	printDigit(arr1,3,0,s);
+	cout << endl;
+	int t[][C]={{1,2,3},{4,5,6},{7,8,9}};
+	rotateBy90Degree(t);
+	cout<<"\n";
+	printParanthesis(0,1,1,1,0,0,0,0,0,0);
+	cout<<"\n Machine check";
+	int i = 0x01234567;
+	   show_mem_rep((char *)&i, sizeof(i));
+	return 0;
+}
+
+void show_mem_rep(char *start, int n)
+{
+    int i;
+    int val=0,k=0;;
+    for (i = 0; i < n; i++)
+    {
+    	printf(" %.2x", start[i]);
+    	val = val | (start[i] & 0xff<<k);
+    	printf(" %.2x",0xFF<<k);
+
+    	k=k+8;
+    }
+    printf("\n");
+    cout<<val;
+}
+
+void printParanthesis(int pos,int n,int n1,int n2,int open,int close,int open1,int close1,int open2,int close2){
+	static char str[100];
+	if(close+close1+close2==n+n1+n2){
+		cout<<str<<"\n";
+		return;
+	}
+	else{
+		if(close < open){
+			str[pos]=')';
+			printParanthesis(pos+1,n,n1,n2,open,close+1,open1,close1,open2,close2);
+		}
+		if(n > open){
+					str[pos]='(';
+					printParanthesis(pos+1,n,n1,n2,open+1,close,open1,close1,open2,close2);
+				}
+
+		if(close1 < open1){
+			str[pos]=']';
+			printParanthesis(pos+1,n,n1,n2,open,close,open1,close1+1,open2,close2);
+		}
+		if(n1 > open1){
+					str[pos]='[';
+					printParanthesis(pos+1,n,n1,n2,open,close,open1+1,close1,open2,close2);
+				}
+
+		if(close2 < open2){
+			str[pos]='}';
+			printParanthesis(pos+1,n,n1,n2,open,close,open1,close1,open2,close2+1);
+		}
+		if(n2 > open2){
+					str[pos]='{';
+					printParanthesis(pos+1,n,n1,n2,open,close,open1,close1,open2+1,close2);
+				}
+
+	}
+}
+void rotateBy90Degree(int arr[][C]){
+	int **temp=new int*[R];
+	for(int i=0;i<R;i++)
+		temp[i]=new int[C];
+	for(int i=0;i<R;i++){
+		for(int j=0;j<C;j++)
+			temp[j][C-i-1]=arr[i][j];
+	}
+	for(int i=0;i<R;i++){
+		for(int j=0;j<C;j++)
+			cout<<temp[i][j]<<" ";
+		cout<<"\n";
+	}
+}
+
+/*
+ * T9 dictionary
+ */
+void printDigit(int arr[],int n,int index,string s){
+	if(index==n){
+		cout<<s<<"\n";
+		return;
+	}
+	switch(arr[index]){
+	case 1:
+		index++;
+		break;
+	case 2:
+		printDigit(arr,n,index+1,s+"a");
+		printDigit(arr,n,index+1,s+"b");
+		printDigit(arr,n,index+1,s+"c");
+		break;
+	case 3:
+		printDigit(arr,n,index+1,s+"d");
+		printDigit(arr,n,index+1,s+"e");
+		printDigit(arr,n,index+1,s+"f");
+		break;
+	case 4:
+		printDigit(arr,n,index+1,s+"g");
+		printDigit(arr,n,index+1,s+"h");
+		printDigit(arr,n,index+1,s+"i");
+		break;
+
+
+	}
+}
+
+
+/*
+ * Find maximum frequent numbers in an array. If there are more numbers with maximum frequency,
+ * they display all numbers in ascending order. Ascending order is important.
+ */
+
+
+void printMaximumFrequencyValue(int arr[],int n){
+	map<int,int> m;
+	int maxfrequency=INT_MIN;
+	for(int i=0;i<n;i++){
+		m[arr[i]]++;
+		maxfrequency=max(m[arr[i]],maxfrequency);
+	}
+	for(map<int,int>::iterator it=m.begin();it!=m.end();it++){
+		if(it->second==maxfrequency){
+			cout<<it->first<<" ";
+		}
+	}
+}
+
+
+void RemoveDuplicatePrimes(int* arr, int& len)
+{
+	int *pArr(arr);
+	long long product(1);
+	int uniqueLen(-1);;
+
+	while(pArr < arr + len){
+		if(product % *pArr != 0){
+			uniqueLen ++;
+			arr[uniqueLen] = *pArr;
+			product *= *pArr;
+		}
+
+		pArr ++;
+	}
+
+	len = uniqueLen + 1;
+}

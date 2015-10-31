@@ -1,7 +1,7 @@
-18:48:48 **** Rebuild of configuration Debug for project Amazon21 ****
+17:50:02 **** Incremental Build of configuration Debug for project Amazon21 ****
 Info: Internal Builder is used for build
 g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\Amazon21.o" "..\\src\\Amazon21.cpp" 
 g++ -o Amazon21.exe "src\\Amazon21.o" 
 
-18:48:50 Build Finished (took 1s.973ms)
+17:50:03 Build Finished (took 1s.218ms)
 
